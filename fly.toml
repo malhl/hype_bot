@@ -1,6 +1,6 @@
 # Fly.io configuration for Bluesky Engagement Bot
 
-app = "bluesky-hype-bot"
+app = "hype-bot"
 primary_region = "iad"  # US East - change to your preferred region
 
 [build]
