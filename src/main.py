@@ -124,7 +124,6 @@ def run_test(handle: str):
     thread_posts = formatter.create_thread_responses(
         top_recent=analysis['top_recent'],
         top_all_time=analysis['top_all_time'],
-        most_ratioed=analysis['most_ratioed'],
         handle=handle,
         recent_days=Config.RECENT_DAYS
     )

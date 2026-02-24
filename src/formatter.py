@@ -212,7 +212,6 @@ class ResponseFormatter:
         self,
         top_recent: Optional[Tuple[Any, int]],
         top_all_time: Optional[Tuple[Any, int]],
-        most_ratioed: Optional[Tuple[Any, float]],
         handle: Optional[str] = None,
         recent_days: int = 30
     ) -> List[str]:
@@ -222,12 +221,11 @@ class ResponseFormatter:
         Args:
             top_recent: Tuple of (post, engagement) for top recent post
             top_all_time: Tuple of (post, engagement) for top all-time post
-            most_ratioed: Tuple of (post, ratio) for most ratioed post
             handle: User handle
             recent_days: Number of days for "recent"
 
         Returns:
-            List of post texts for the thread (3 posts)
+            List of post texts for the thread (2 posts)
         """
         thread = []
 
@@ -256,22 +254,5 @@ class ResponseFormatter:
             thread.append(text)
         else:
             thread.append("👑 No all-time posts found")
-
-        # Post 3: Most ratioed (only if ratio is 3:1 or worse)
-        if most_ratioed:
-            post, ratio = most_ratioed
-            if ratio >= 3.0:
-                text = self.format_thread_post(
-                    emoji="🌶️",
-                    title="Most Ratioed",
-                    post=post,
-                    score_text=f"Ratio: {ratio:.1f}",
-                    handle=handle
-                )
-                thread.append(text)
-            else:
-                thread.append(f"No ratio here! Keep posting those bangers 🔥")
-        else:
-            thread.append(f"No ratio here! Keep posting those bangers 🔥")
 
         return thread

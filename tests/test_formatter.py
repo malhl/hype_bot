@@ -90,46 +90,22 @@ class TestCreateThreadResponses:
     def test_all_categories_present(self, formatter):
         post1 = make_post(likes=100, reposts=50, replies=20)
         post2 = make_post(likes=200, reposts=100, replies=50)
-        post3 = make_post(likes=5, replies=30)
 
         thread = formatter.create_thread_responses(
             top_recent=(post1, 170),
             top_all_time=(post2, 350),
-            most_ratioed=(post3, 6.0),  # ratio >= 3.0
             handle="user.bsky.social",
         )
-        assert len(thread) == 3
+        assert len(thread) == 2
         assert "🔥" in thread[0]
         assert "👑" in thread[1]
-        assert "🌶️" in thread[2]
-
-    def test_ratio_below_threshold_shows_fun_message(self, formatter):
-        post = make_post(likes=10, replies=5)
-        thread = formatter.create_thread_responses(
-            top_recent=None,
-            top_all_time=None,
-            most_ratioed=(post, 0.5),  # ratio < 3.0
-            handle="user.bsky.social",
-        )
-        assert "No ratio here" in thread[2]
-        assert "bangers" in thread[2]
-
-    def test_no_ratioed_post(self, formatter):
-        thread = formatter.create_thread_responses(
-            top_recent=None,
-            top_all_time=None,
-            most_ratioed=None,
-            handle="user.bsky.social",
-        )
-        assert "No ratio here" in thread[2]
 
     def test_missing_recent_and_alltime(self, formatter):
         thread = formatter.create_thread_responses(
             top_recent=None,
             top_all_time=None,
-            most_ratioed=None,
         )
-        assert len(thread) == 3
+        assert len(thread) == 2
         assert "No posts found" in thread[0]
         assert "No all-time" in thread[1]
 
@@ -138,7 +114,6 @@ class TestCreateThreadResponses:
         thread = formatter.create_thread_responses(
             top_recent=(post, 170),
             top_all_time=(post, 170),
-            most_ratioed=(post, 5.0),
             handle="user.bsky.social",
         )
         for post_text in thread:
